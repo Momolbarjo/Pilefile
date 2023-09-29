@@ -5,16 +5,16 @@
 #include <time.h>
 #include <string.h>
 
-typedef struct  PileDyn
+typedef struct  DynStackElement
 {
     int nb;
-    struct PileDynelement* next;
-}PileDynelement, *PileDyn;
+    struct DynStackElement* next;
+}DynStackElement, *DynStack;
 
-PileDyn initializePile(void);
-PileDyn stack(int nb,PileDyn ppile);
-void printPile(PileDyn ppile);
-PileDyn depile(PileDyn ppile, int* pvalue);
+DynStack initializeStack(void);
+DynStack stack(int nb,DynStack sstack);
+void printStack(DynStack sstack);
+DynStack destack(DynStack sstack, int* pvalue);
 
 
 #endif
