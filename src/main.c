@@ -14,7 +14,12 @@ int main(void)
 	}
 	
 	
-	free(myPile);
+	while (myPile != NULL) 
+	{
+        PileDyn temp = myPile;
+        myPile = myPile->next;
+        free(temp);
+        }
 	
 	return 0;
 }
