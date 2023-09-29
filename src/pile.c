@@ -2,17 +2,17 @@
 #include "pile.h"
 
 
-PileDyn initializePile(void)
+DynStack initializeStack(void)
 {
 
 	return NULL;
 }
 
-PileDyn stack(int value,PileDyn ppile)
+DynStack stack(int value,DynStack sstack)
 {
 
     
-    PileDynelement *element;
+    DynStackElement *element;
 
     element= malloc(sizeof(*element));
 
@@ -24,17 +24,34 @@ PileDyn stack(int value,PileDyn ppile)
     }
 
     element->nb = value;
-    element->next = ppile;
+    element->next = sstack;
 
     return element;
 }	
 
-void printPile(PileDyn ppile) {
-    PileDynElement* current = ppile;
-
-    printf("Contenu de la pile :\n");
-    while (current != NULL) {
-        printf("%d\n", current->nb);
-        current = current->next;
+void printStack(DynStack sstack) {
+    if(sstack== NULL)
+    {
+        return;
     }
+
+    printf("%d\n",sstack->nb);
+    printStack(sstack->next);
+
 }	
+
+DynStack destack(DynStack sstack, int* pvalue)
+{
+    if(sstack== NULL)
+    {
+        *pvalue=0;
+        return NULL;
+    }
+
+    DynStack tmp =sstack;
+    *pvalue = tmp->nb;
+    sstack = sstack->next;
+
+    free(tmp);
+    return sstack;
+}
