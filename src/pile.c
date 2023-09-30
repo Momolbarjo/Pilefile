@@ -55,3 +55,43 @@ DynStack destack(DynStack sstack, int* pvalue)
     free(tmp);
     return sstack;
 }
+
+
+void initializeStaticStack(StaticStack* stack){
+
+    stack->head =-1;
+}
+
+bool isStackEmpty(StaticStack* stack) {
+
+    return stack->head == -1;
+}
+
+int pop(StaticStack* stack){
+    if(!isStackEmpty(stack)){
+        return stack->items[stack->head--];
+    }
+    else{
+        printf("The stack is empty");
+        return -1;
+    }
+}
+
+StaticStack* push( StaticStack *stack, int item){
+
+    if(stack->head < NB -1){
+        stack->items[++stack->head] = item;
+    }
+    else{
+        printf("There is no more place in the stack");
+    }
+    return stack;
+}
+
+void printStaticStack(StaticStack *stack){
+    for(int i=0;i <=stack->head;i++){
+        printf("%d",stack->items[i]);
+        printf("\n");
+    }
+    printf("\n");
+}
