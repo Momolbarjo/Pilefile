@@ -4,7 +4,19 @@
 
 int main(void)
 { 	
-	StaticStack myEvenStackk,myOddStackk,myStackk;
+	printf("The Size of the queue is  %d \n",Queue_length());
+	print_Queue();
+	Enqueue(3008);
+
+	printf("The Size of the queue is %d \n",Queue_length());
+	print_Queue();
+	Dequeue();
+	
+	printf("The Size of the queue is %d \n",Queue_length());
+	print_Queue();
+
+	
+	/*StaticStack myEvenStackk,myOddStackk,myStackk;
 	DynStack myStack= initializeStack();
 	DynStack myEvenStack = initializeStack();
 	DynStack myOddStack = initializeStack();
@@ -15,7 +27,7 @@ int main(void)
 	initializeStaticStack(&myOddStackk);
 	initializeStaticStack(&myStackk);
 	
-	/*for(int i=0 ; i<NB ; i++)
+	for(int i=0 ; i<NB ; i++)
 	{
 		myStack=stack(val,myStack);
 		val++;
@@ -24,7 +36,7 @@ int main(void)
 	printStack(myStack);
 
 	while(myStack != NULL){
-	myStack=destack(myStack,&valdestack);
+		myStack=destack(myStack,&valdestack);
 
 
         //printf("Value destacked: %d\n", valdestack);
@@ -52,22 +64,22 @@ if (myStack == NULL) {
 	
 	while (myEvenStack != NULL) 
 	{
-        DynStack temp = myEvenStack;
-        myEvenStack = myEvenStack->next;
-        free(temp);
+        	DynStack temp = myEvenStack;
+       	 	myEvenStack = myEvenStack->next;
+        	free(temp);
     }
 	while (myOddStack != NULL) 
 	{
-        DynStack temp = myOddStack;
-        myOddStack = myOddStack->next;
-        free(temp);
+        	DynStack temp = myOddStack;
+        	myOddStack = myOddStack->next;
+        	free(temp);
     }
 	while (myStack != NULL) 
 	{
-        DynStack temp = myStack;
-        myStack = myStack->next;
-        free(temp);
-    }*/
+        	DynStack temp = myStack;
+        	myStack = myStack->next;
+        	free(temp);
+    }
 	
 	for(int i=0 ; i<NB ; i++)
 	{
@@ -91,7 +103,9 @@ if (myStack == NULL) {
 	printf("\n");
 
 	printf("OddStack : \n");
-	printStaticStack(&myOddStackk);
+	printStaticStack(&myOddStackk);*/
+
+
 	return 0;
 }
 
