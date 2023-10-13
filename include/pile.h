@@ -1,6 +1,8 @@
 #ifndef  PILE_H
 #define PILE_H
 #define NB 20
+#define SIZE 30
+#define MAX_ITEMS 35
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
@@ -11,6 +13,12 @@ typedef struct  DynStackElement
     int nb;
     struct DynStackElement* next;
 }DynStackElement, *DynStack;
+
+typedef struct  DynStackletter
+{
+    char phrase;
+    struct DynStackletter* next;
+}DynStackletter, *DynStackSentence;
 
 typedef struct {
 
@@ -23,9 +31,12 @@ typedef struct QueueElement {
     struct QueueElement* next;
 } QueueElement, *DynQueue;
 
-static QueueElement* first=NULL;
-static QueueElement* last=NULL;
-static int NbQueueElems= 0;
+typedef struct {
+    DynQueue head;
+    DynQueue tail;
+    int length;
+} Queue;
+
 
 
 DynStack initializeStack(void);
@@ -38,14 +49,20 @@ int pop(StaticStack* stack);
 void initializeStaticStack(StaticStack* stack);
 StaticStack* push( StaticStack *stack, int item);
 void printStaticStack(StaticStack *stack);
-bool isQueueEmpty(void);
-//DynQueue Client(DynQueue Client);
-int Queue_length(void);
-int Queue_first(void);
-int Queue_last(void);
-void print_Queue(void);
-void Enqueue(int x);
-void Dequeue(void);
-void clear_Queue(void);
+void initializeQueue(Queue* queue);
+bool isQueueEmpty(Queue* queue);
+int getQueueLength(Queue* queue);
+void enqueue(Queue* queue, int x);
+int dequeue(Queue* queue);
+void clearQueue(Queue* queue);
+void printQueue(Queue* queue);
+DynStackSentence initializeSentence(void);
+DynStackSentence stackSentence(char letter , DynStackSentence sentence);
+bool isSentenceEmpty(DynStackSentence sentence);
+DynStackSentence destackSen(DynStackSentence sentence);
+void isSetenceCorrect(char sentence[SIZE]);
+
+
+
 
 #endif
