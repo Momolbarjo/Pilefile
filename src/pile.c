@@ -97,49 +97,89 @@ void printStaticStack(StaticStack *stack){
 }
 
 
-bool isQueueEmpty(void){
-    if(last == NULL && first == NULL){
-        return true;
-    }
-    return false;
-}
-
-int Queue_length(void){
-    return NbQueueElems;
-}
-
-int Queue_first(void){
-    if(isQueueEmpty()){
-        exit(1);
-    }
-    return first->data;
-}
-
-int Queue_last(void){
-    if(isQueueEmpty()){
-        exit(1);
-    }
-    return last->data;
-}
-
-void print_Queue(void){
-    if(isQueueEmpty()){
-        printf("The Queue is empty\n");
-        return;
-    }
-    QueueElement* tmp=first;
+void initializeQueue(Queue* queue) {
+    queue->head = NULL;
+    queue->tail = NULL;
+    queue->length=0;
     
-    while(tmp != NULL){
-        printf("%d", tmp->data);
-        tmp=tmp->next;
+}
+
+bool isQueueEmpty(Queue* queue) {
+    return queue->head == NULL;
+}
+
+int getQueueLength(Queue* queue) {
+    return queue->length;
+}
+
+void enqueue(Queue* queue, int x) {
+    DynQueue element = malloc(sizeof(DynQueue));
+    if (element == NULL) {
+        fprintf(stderr, "Error of memory allocation\n");
+        exit(1);
+    }
+    element->data = x;
+    element->next = NULL;
+
+    if (isQueueEmpty(queue)) {
+       queue->head = element;
+    } else {
+        queue->tail->next = element;
+    }
+    queue->tail = element;
+    queue->length++;
+    
+}
+
+int dequeue(Queue* queue) {
+    if (isQueueEmpty(queue)) {
+        fprintf(stderr, "The Queue is empty\n");
+        exit(1);
+    }
+    DynQueue tmp = queue->head;
+    int result = tmp->data;
+    queue->head=queue->head->next;
+
+    if (queue->head ==NULL){
+        queue->tail=NULL;
+    }
+    free(tmp);
+    queue->length--; 
+   return result;
+}
+
+void clearQueue(Queue* queue) {
+    while (!isQueueEmpty(queue)) {
+        dequeue(queue);
+    }
+}
+
+void printQueue(Queue* queue){
+
+    if (isQueueEmpty(queue)){
+        printf("The Queue is empty\nj");
+        return; 
+    }
+    DynQueue current = queue->head;
+    printf("#################################\n");
+    printf("Queue elements: \n");
+    while(current != NULL){
+        printf("%d\n", current->data);
+        current = current->next;
     }
     printf("\n");
 }
 
-void Enqueue(int x){
-   QueueElement* element;
 
-    element= malloc(sizeof(*element));
+DynStackSentence initializeSentence(void){
+    return NULL;
+}
+
+DynStackSentence stackSentence(char letter , DynStackSentence sentence){
+
+     DynStackSentence element;
+
+    element= malloc(sizeof(DynStackletter));
 
     if(element == NULL)
     {
@@ -148,46 +188,76 @@ void Enqueue(int x){
 
     }
 
-    element->data = x;
-    element->next = NULL;
+    element->phrase = letter;
+    element->next = sentence;
 
-    if(isQueueEmpty()){
-        first = element;
-        last = element;
-    }
-    else{
-        last->next = element;
-        last = element;
-    }
-        NbQueueElems++;
+    return element;
+
 }
 
-void Dequeue(void){
-    if(isQueueEmpty()){
-        printf("The Queue is empty\n");
-        return;
+DynStackSentence destackSen(DynStackSentence sentence){
+    if(sentence== NULL)
+    {
+        
+        return NULL;
     }
 
-    QueueElement* tmp = first;
+    DynStackSentence tmp =sentence;
+    sentence = sentence->next;
 
-    if(first == last){
-        first = NULL;
-        last = NULL;
-    }
-    else{
-        first = first->next;
-    }
     free(tmp);
-    NbQueueElems--;
+    return sentence;
 }
 
-void clear_Queue(void){
-    if(isQueueEmpty()){
-        printf("The Queue is empty\n");
-        return;
+bool isSentenceEmpty(DynStackSentence stack){
+    if(stack == NULL){
+        return true;
     }
-    while(!isQueueEmpty()){
-        Dequeue();
+    return false;
+}
+
+void isSetenceCorrect(char sentence[SIZE]) {
+    DynStackSentence phrase = initializeSentence();
+    int i = 0;
+    int roundpossible=0;
+    int squarepossible=0;
+
+    while (sentence[i] != '\0') {
+        if (sentence[i] == '(') {
+            phrase = stackSentence(sentence[i], phrase);
+            roundpossible=1;
+        } else if (sentence[i] == ')') {
+            if (roundpossible==0 || isSentenceEmpty(phrase) || phrase->phrase != '(') {
+                printf("There is a parenthesis problem\n");
+                exit(1);
+            } else {
+                phrase = destackSen(phrase);
+                roundpossible=0;
+            }
+            } else if (sentence[i] == '[') {
+            phrase = stackSentence(sentence[i], phrase);
+            squarepossible = 1;
+        } else if (sentence[i] == ']') {
+            if (squarepossible == 0 || isSentenceEmpty(phrase) || phrase->phrase != '[') {
+                printf("There is a parenthesis problem\n");
+                exit(1);
+            } else {
+                phrase = destackSen(phrase);
+                squarepossible = 0;
+            }
+        }
+        i++;
     }
 
+    if (!isSentenceEmpty(phrase) || roundpossible!=0 || squarepossible!=0) {
+        printf("There is a parenthesis issue\n");
+        exit(1);
+    }
+
+    printf("Parentheses are correctly balanced.\n");
+
+    while (phrase != NULL) {
+        phrase = destackSen(phrase);
+    }
 }
+
